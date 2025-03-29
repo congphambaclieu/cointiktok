@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TikTok Coin Recharge</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+<body>
+  <!-- Login Modal -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal login-modal">
+      <div class="modal-title">
+        <span>Login TikTok</span>
+        <span class="close-btn" onclick="closeModal('loginModal')">×</span>
+      </div>
+      <div class="login-form">
+        <input type="text" id="tiktokId" placeholder="Enter TikTok account ID (eg username)">
+        <button class="login-btn" onclick="performLogin()">Login</button>
+      </div>
+      <div class="login-note">
+        <p>Logging into the system does not require a password. Please do not give your password to anyone.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <div> <img src="./image/1200px-TikTok_logo.svg.png" style="width: 60px;" alt=""></div>
+      <div class="search-box">
+        <span class="search-text">Search</span>
+      </div>
+      <div class="login-section">
+        <button class="login-btn" onclick="openLoginModal('login')">Login</button>
+      </div>
+    </div>
+      <!-- Add profile section here -->
+    <div id="headerUserInfo" class="user-profile-section">
+      <!-- Profile information will be dynamically inserted here -->
+      
+    </div>
+    <div id="notiLogin"></div>
+
+    <div class="header-title">
+      <h2>Get Coins</h2>
+      <span class="transaction-history">View transaction history</span>
+    </div>
+    
+    <input type="text" id="usernameInput" class="username-input" onchange="handleUsernameChange(event)" placeholder="Enter Username">
+    
+    <div class="discount-info" style="padding: 0 16px; margin-bottom: 10px; font-size: 13px; color: #666;">
+      <p><b>Recharge:</b> <span style="color: #ff4d4f; padding-left: 1px;">Save up to 15% compared to in-app purchase</span>  </p>
+    </div>
+
+  
+    
+    <div class="coin-options">
+      <div class="coin-option" onclick="selectOption(this, 70, 0.91)">
+        <div class="coin-amount">
+          <div class="coin-icon"><img src="image/coin.png" alt=""></div>
+          <span>70</span>
+        </div>
+        <div class="coin-price">$0.91</div>
+      </div>
+      <div class="coin-option" onclick="selectOption(this, 350, 4.55)">
+        <div class="coin-amount">
+          <div class="coin-icon"><img src="image/coin.png" alt=""></div>
+          <span>350</span>
+        </div>
+        <div class="coin-price">$4.55</div>
+      </div>
+      <div class="coin-option" onclick="selectOption(this, 700, 9.10)">
+        <div class="coin-amount">
+          <div class="coin-icon"><img src="image/coin.png" alt=""></div>
+          <span>700</span>
+        </div>
+        <div class="coin-price">$9.10</div>
+      </div>
+      <div class="coin-option" onclick="selectOption(this, 1400, 18.20)">
+        <div class="coin-amount">
+          <div class="coin-icon"><img src="image/coin.png" alt=""></div>
+          <span>1,400</span>
+        </div>
+        <div class="coin-price">$18.20</div>
+      </div>
+      <div class="coin-option" onclick="selectOption(this, 3500, 45.50)">
+        <div class="coin-amount">
+          <div class="coin-icon"><img src="image/coin.png" alt=""></div>
+          <span>3,500</span>
+        </div>
+        <div class="coin-price">$45.50</div>
+      </div>
+      <div class="coin-option" onclick="selectOption(this, 7000, 91.00)">
+        <div class="coin-amount">
+          <div class="coin-icon"><img src="image/coin.png" alt=""></div>
+          <span>7,000</span>
+        </div>
+        <div class="coin-price">$91.00</div>
+      </div>
+      <div class="coin-option" onclick="selectOption(this, 17500, 227.50)">
+        <div class="coin-amount">
+          <div class="coin-icon"><img src="image/coin.png" alt=""></div>
+          <span>17,500</span>
+        </div>
+        <div class="coin-price">$227.50</div>
+      </div>
+      <div class="coin-option" onclick="openCustomModal()">
+        <div class="coin-amount">
+          <div class="coin-icon"><img src="image/coin.png" alt=""></div>
+          <span>Custom</span>
+        </div>
+        <div class="coin-price">Large amount supported</div>
+      </div>
+    </div>
+    
+    <div class="payment-section">
+      <div class="payment-icons">
+        <b class="payment-method">Payment method</b> 
+        <img class="payment-icon" src="image/visa-logo-preview.png" alt="">
+        <img  class="payment-icon" src="image/mastercard.png" alt="">
+        <img class="payment-icon" src="image/diners_0faca9.png" alt="">
+        <img  class="payment-icon" src="image/discover_4adc90.png" alt="">
+      </div>
+      <button class="recharge-btn" onclick="openCustomModal()">Recharge</button>
+    </div>
+  </div>
+  
+  <div class="modal-overlay" id="customModal">
+    <div class="modal">
+      <div class="modal-title">
+        <span>Custom</span>
+        <span class="close-btn" onclick="closeModal('customModal')">×</span>
+      </div>
+      <div class="custom-amount">
+        <div class="coin-icon"><img src="image/coin.png" alt=""></div>
+        <input type="text" id="coinAmount" value="50000" readonly>
+      </div>
+      <div class="keypad">
+        <div class="key" onclick="addDigit('1')">1</div>
+        <div class="key" onclick="addDigit('2')">2</div>
+        <div class="key" onclick="addDigit('3')">3</div>
+        <div class="key" onclick="deleteDigit()">←</div>
+        <div class="key" onclick="addDigit('4')">4</div>
+        <div class="key" onclick="addDigit('5')">5</div>
+        <div class="key" onclick="addDigit('6')">6</div>
+        <div class="key" onclick="addDigit('000')">000</div>
+        <div class="key" onclick="addDigit('7')">7</div>
+        <div class="key" onclick="addDigit('8')">8</div>
+        <div class="key" onclick="addDigit('9')">9</div>
+        <div class="key" onclick="addDigit('0')">0</div>
+      </div>
+      <div class="total-section">
+        Total: $ <span id="totalAmount">650.00</span>
+      </div>
+      <button class="recharge-btn-modal" onclick="showPaymentMethodModal()">Recharge</button>
+    </div>
+  </div>
+  
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal">
+      <div class="success-modal">
+        <div class="success-icon">✓</div>
+        <h3>Payment completed</h3>
+        <p class="success-message">You recharged 5 50000 Coins. You can use coins to send virtual Gifts</p>
+        <button class="go-back-btn" onclick="closeModal('successModal')">Go Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Modal -->
+  <div class="modal-overlay" id="loadingModal">
+    <div class="modal">
+      <div class="loading-modal">
+        <div class="spinner"></div>
+        <div class="loading-text">Processing payment...</div>
+        <div class="loading-progress">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div id="loadingStatus">Please wait...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Method Modal -->
+<div class="modal-overlay" id="paymentMethodModal">
+  <div class="modal">
+    <div class="modal-title">
+      Order summary
+      <span class="close-btn" onclick="closeModal('paymentMethodModal')">&times;</span>
+    </div>
+    
+    <div class="order-summary">
+      <div class="order-item">
+        <div>Coins</div>
+        <div><span id="summaryCoins">0</span> Coins</div>
+      </div>
+      <div class="order-item-total">
+        <div>Total</div>
+        <div>$ <span id="summaryTotal">0.00</span></div>
+      </div>
+    </div>
+    
+    <div class="payment-methods">
+      <div class="payment-method-title">Select payment method</div>
+      
+      <div class="payment-method-item selected" onclick="selectPaymentMethod(this)">
+        <img src="image/visa-logo-preview.png" alt="Visa">
+        <div class="payment-method-details">
+          <div>Visa</div>
+          <div class="card-number">•••• •••• •••• 1895</div>
+        </div>
+      </div>
+      
+      <div class="payment-method-item" onclick="selectPaymentMethod(this)">
+        <img src="image/mastercard.png" alt="Mastercard">
+        <div class="payment-method-details">
+          <div>Mastercard</div>
+          <div class="card-number">•••• •••• •••• 3487</div>
+        </div>
+      </div>
+      
+      <div class="add-card-btn" onclick="alert('Add new card functionality would be implemented here')">
+        <div class="plus-icon">+</div>
+        <span>Add new payment method</span>
+      </div>
+    </div>
+    
+    <button class="recharge-btn-modal" onclick="showLoadingModal()">Recharge</button>
+  </div>
+  </div>
+
+</body>
+</html>
